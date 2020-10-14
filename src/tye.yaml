@@ -1,0 +1,12 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    <survey link>
+#
+name: upworth
+services:
+- name: networth
+  project: services\networth\networth.api\networth.api.csproj
+- name: wasm
+  project: web/wasm/wasm.csproj
