@@ -234,3 +234,4 @@ _Pvt_Extensions
 .fake/
 /NDependOut
 /CleanArchitecture.ndproj
+/src/.tye/process_store
