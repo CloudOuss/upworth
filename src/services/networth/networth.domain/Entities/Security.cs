@@ -4,11 +4,18 @@ namespace NetworthDomain.Entities
 {
     public class Security
     {
+        public string Ticker { get; set; }
         public Industry Industry { get; set; }
 
-        public Security(int industryId)
+        protected Security()
         {
-            Industry = AbstractEnumeration.FromValue<Industry>(industryId);
+            
+        }
+
+        public Security(string ticker, int industryValue)
+        {
+            Ticker = ticker;
+            Industry = AbstractEnumeration.FromValue<Industry>(industryValue);
         }
     }
 }

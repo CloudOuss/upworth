@@ -39,6 +39,7 @@ namespace NetworthInfrastructure.Configuration
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+            services.AddTransient<ISecuritiesService, SecuritiesService>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

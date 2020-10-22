@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,11 @@ namespace NetworthApi
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
             services.AddControllers(options =>
-                options.Filters.Add(new ApiExceptionFilter()));
+                options.Filters.Add(new ApiExceptionFilter()))
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                }); ;
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
             {
