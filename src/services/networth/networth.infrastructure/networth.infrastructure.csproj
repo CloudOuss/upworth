@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>networth.infrastructure</RootNamespace>
-    <AssemblyName>CleanArchitecture.Infrastructure</AssemblyName>
+    <RootNamespace>NetworthInfrastructure</RootNamespace>
+    <AssemblyName>NetworthInfrastructure</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,12 +1,12 @@
-﻿using CleanArchitecture.Application.Common.Exceptions;
-using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Domain.Enums;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using NetworthApplication.Common.Exceptions;
+using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Entities;
+using NetworthDomain.Enums;
 
-namespace CleanArchitecture.Application.TodoItems.Commands.UpdateTodoItemDetail
+namespace NetworthApplication.TodoItems.Commands.UpdateTodoItemDetail
 {
     public class UpdateTodoItemDetailCommand : IRequest
     {

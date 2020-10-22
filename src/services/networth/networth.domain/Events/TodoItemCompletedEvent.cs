@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Domain.Common;
-using CleanArchitecture.Domain.Entities;
+﻿using NetworthDomain.Common;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Domain.Events
+namespace NetworthDomain.Events
 {
     public class TodoItemCompletedEvent : DomainEvent
     {

@@ -1,12 +1,12 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Models;
-using CleanArchitecture.Domain.Common;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
+using NetworthApplication.Common.Interfaces;
+using NetworthApplication.Common.Models;
+using NetworthDomain.Common;
 
-namespace CleanArchitecture.Infrastructure.Services
+namespace NetworthInfrastructure.Services
 {
     public class DomainEventService : IDomainEventService
     {

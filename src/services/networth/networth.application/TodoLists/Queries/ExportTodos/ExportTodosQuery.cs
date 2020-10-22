@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using CleanArchitecture.Application.Common.Interfaces;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using NetworthApplication.Common.Interfaces;
 
-namespace CleanArchitecture.Application.TodoLists.Queries.ExportTodos
+namespace NetworthApplication.TodoLists.Queries.ExportTodos
 {
     public class ExportTodosQuery : IRequest<ExportTodosVm>
     {

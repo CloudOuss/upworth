@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.Common.Mappings;
-using CleanArchitecture.Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NetworthApplication.Common.Mappings;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Application.TodoLists.Queries.GetTodos
+namespace NetworthApplication.TodoLists.Queries.GetTodos
 {
     public class TodoListDto : IMapFrom<TodoList>
 {

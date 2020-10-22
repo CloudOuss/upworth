@@ -1,9 +1,9 @@
-﻿using CleanArchitecture.Domain.Common;
-using CleanArchitecture.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NetworthDomain.Common;
+using NetworthDomain.Exceptions;
 
-namespace CleanArchitecture.Domain.ValueObjects
+namespace NetworthDomain.ValueObjects
 {
     public class AdAccount : ValueObject
     {

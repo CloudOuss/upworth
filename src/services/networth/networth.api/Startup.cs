@@ -1,17 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using NetworthApi.Filters;
+using NetworthApi.Services;
+using NetworthApplication.Common.Interfaces;
+using NetworthApplication.Configuration;
+using NetworthInfrastructure.Configuration;
 
-namespace networth.api
+namespace NetworthApi
 {
     public class Startup
     {
@@ -25,7 +24,21 @@ namespace networth.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //add application layer configuration
+            services.AddApplicationLayer();
+            
+            //add infrastructure layer configuration
+            services.AddInfrastructureLayer(Configuration);
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddHttpContextAccessor();
+            services.AddControllers(options =>
+                options.Filters.Add(new ApiExceptionFilter()));
+            // Customise default API behaviour
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

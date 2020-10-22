@@ -1,18 +1,18 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Infrastructure.Files;
-using CleanArchitecture.Infrastructure.Identity;
-using CleanArchitecture.Infrastructure.Persistence;
-using CleanArchitecture.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetworthApplication.Common.Interfaces;
+using NetworthInfrastructure.Files;
+using NetworthInfrastructure.Identity;
+using NetworthInfrastructure.Persistence;
+using NetworthInfrastructure.Services;
 
-namespace CleanArchitecture.Infrastructure
+namespace NetworthInfrastructure.Configuration
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
@@ -28,7 +28,6 @@ namespace CleanArchitecture.Infrastructure
             }
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-
             services.AddScoped<IDomainEventService, DomainEventService>();
 
             services.AddDefaultIdentity<ApplicationUser>()

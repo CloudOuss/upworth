@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NetworthDomain.Common;
 
-namespace CleanArchitecture.Domain.Entities
+namespace NetworthDomain.Entities
 {
     public class TodoList : AuditableEntity
     {
@@ -9,7 +9,7 @@ namespace CleanArchitecture.Domain.Entities
 
         public string Title { get; set; }
 
-        public string Colour { get; set; }
+        public string Color { get; set; }
 
         public IList<TodoItem> Items { get; private set; } = new List<TodoItem>();
     }

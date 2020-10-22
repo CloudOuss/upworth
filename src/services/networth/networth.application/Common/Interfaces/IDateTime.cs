@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CleanArchitecture.Application.Common.Interfaces
+namespace NetworthApplication.Common.Interfaces
 {
     public interface IDateTime
     {

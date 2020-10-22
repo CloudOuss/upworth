@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Domain.Enums
+﻿namespace NetworthDomain.Enums
 {
     public enum PriorityLevel
     {

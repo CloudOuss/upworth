@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-wasm-8687A2FA-5BD7-46EE-AC2C-3468DF904986</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <RootNamespace>UpWortWebAssembly</RootNamespace>
+    <AssemblyName>UpWortWebAssembly</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

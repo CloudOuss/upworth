@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.Application.Common.Models
+namespace NetworthApplication.Common.Models
 {
     public class PaginatedList<T> 
     {

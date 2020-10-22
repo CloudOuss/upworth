@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Domain.Entities;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Application.TodoLists.Commands.CreateTodoList
+namespace NetworthApplication.TodoLists.Commands.CreateTodoList
 {
     public class CreateTodoListCommand : IRequest<int>
     {

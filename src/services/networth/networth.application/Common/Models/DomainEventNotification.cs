@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Domain.Common;
-using MediatR;
+﻿using MediatR;
+using NetworthDomain.Common;
 
-namespace CleanArchitecture.Application.Common.Models
+namespace NetworthApplication.Common.Models
 {
     public class DomainEventNotification<TDomainEvent> : INotification where TDomainEvent : DomainEvent
     {

@@ -1,15 +1,15 @@
-﻿using AutoMapper;
-using CleanArchitecture.Application.Common.Behaviours;
+﻿using System.Reflection;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using NetworthApplication.Common.Behaviours;
 
-namespace CleanArchitecture.Application
+namespace NetworthApplication.Configuration
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -17,7 +17,6 @@ namespace CleanArchitecture.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-
             return services;
         }
     }

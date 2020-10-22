@@ -1,11 +1,11 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Domain.Events;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Entities;
+using NetworthDomain.Events;
 
-namespace CleanArchitecture.Application.TodoItems.Commands.CreateTodoItem
+namespace NetworthApplication.TodoItems.Commands.CreateTodoItem
 {
     public class CreateTodoItemCommand : IRequest<int>
     {

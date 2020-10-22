@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Infrastructure.Persistence.Configurations
+namespace NetworthInfrastructure.Persistence.Configurations
 {
     public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
     {

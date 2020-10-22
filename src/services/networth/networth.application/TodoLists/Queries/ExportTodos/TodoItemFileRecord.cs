@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.Common.Mappings;
-using CleanArchitecture.Domain.Entities;
+﻿using NetworthApplication.Common.Mappings;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Application.TodoLists.Queries.ExportTodos
+namespace NetworthApplication.TodoLists.Queries.ExportTodos
 {
     public class TodoItemRecord : IMapFrom<TodoItem>
     {

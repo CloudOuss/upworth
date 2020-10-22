@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.Common.Models;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Identity;
-using System.Linq;
+using NetworthApplication.Common.Models;
 
-namespace CleanArchitecture.Infrastructure.Identity
+namespace NetworthInfrastructure.Identity
 {
     public static class IdentityResultExtensions
     {

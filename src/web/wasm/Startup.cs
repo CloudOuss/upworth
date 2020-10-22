@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using wasm.Data;
 
-namespace wasm
+namespace UpWortWebAssembly
 {
     public class Startup
     {

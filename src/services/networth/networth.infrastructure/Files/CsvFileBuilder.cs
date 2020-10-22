@@ -1,12 +1,12 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.TodoLists.Queries.ExportTodos;
-using CleanArchitecture.Infrastructure.Files.Maps;
-using CsvHelper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using CsvHelper;
+using NetworthApplication.Common.Interfaces;
+using NetworthApplication.TodoLists.Queries.ExportTodos;
+using NetworthInfrastructure.Files.Maps;
 
-namespace CleanArchitecture.Infrastructure.Files
+namespace NetworthInfrastructure.Files
 {
     public class CsvFileBuilder : ICsvFileBuilder
     {

@@ -1,9 +1,9 @@
-﻿using CleanArchitecture.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NetworthDomain.Entities;
 
-namespace CleanArchitecture.Application.Common.Interfaces
+namespace NetworthApplication.Common.Interfaces
 {
     public interface IApplicationDbContext
     {

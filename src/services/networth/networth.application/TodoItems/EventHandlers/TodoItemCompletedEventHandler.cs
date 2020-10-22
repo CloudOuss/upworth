@@ -1,11 +1,11 @@
-﻿using CleanArchitecture.Application.Common.Models;
-using CleanArchitecture.Domain.Events;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
+using NetworthApplication.Common.Models;
+using NetworthDomain.Events;
 
-namespace CleanArchitecture.Application.TodoItems.EventHandlers
+namespace NetworthApplication.TodoItems.EventHandlers
 {
     public class TodoItemCompletedEventHandler : INotificationHandler<DomainEventNotification<TodoItemCompletedEvent>>
     {

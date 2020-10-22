@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.TodoLists.Queries.ExportTodos;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NetworthApplication.TodoLists.Queries.ExportTodos;
 
-namespace CleanArchitecture.Application.Common.Interfaces
+namespace NetworthApplication.Common.Interfaces
 {
     public interface ICsvFileBuilder
     {

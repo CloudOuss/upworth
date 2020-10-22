@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CleanArchitecture.Domain.Common
+namespace NetworthDomain.Common
 {
     // Learn more: https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
     public abstract class ValueObject
@@ -31,8 +31,8 @@ namespace CleanArchitecture.Domain.Common
             }
 
             var other = (ValueObject)obj;
-            var thisValues = GetAtomicValues().GetEnumerator();
-            var otherValues = other.GetAtomicValues().GetEnumerator();
+            using var thisValues = GetAtomicValues().GetEnumerator();
+            using var otherValues = other.GetAtomicValues().GetEnumerator();
 
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {

@@ -1,11 +1,11 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+using NetworthApplication.Common.Interfaces;
+using NetworthApplication.Common.Models;
 
-namespace CleanArchitecture.Infrastructure.Identity
+namespace NetworthInfrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {

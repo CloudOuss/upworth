@@ -1,17 +1,17 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Domain.Common;
-using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Infrastructure.Identity;
+﻿using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
+using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Common;
+using NetworthDomain.Entities;
+using NetworthInfrastructure.Identity;
 
-namespace CleanArchitecture.Infrastructure.Persistence
+namespace NetworthInfrastructure.Persistence
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {

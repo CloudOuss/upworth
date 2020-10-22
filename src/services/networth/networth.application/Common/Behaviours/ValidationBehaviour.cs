@@ -4,9 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using ValidationException = CleanArchitecture.Application.Common.Exceptions.ValidationException;
 
-namespace CleanArchitecture.Application.Common.Behaviours
+namespace NetworthApplication.Common.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
@@ -28,7 +27,9 @@ namespace CleanArchitecture.Application.Common.Behaviours
                 var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
                 if (failures.Count != 0)
-                    throw new ValidationException(failures);
+                {
+                    throw new Exceptions.ValidationException(failures);
+                }
             }
             return await next();
         }

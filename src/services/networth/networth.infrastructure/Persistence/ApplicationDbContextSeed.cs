@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using NetworthDomain.Entities;
+using NetworthInfrastructure.Identity;
 
-namespace CleanArchitecture.Infrastructure.Persistence
+namespace NetworthInfrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {

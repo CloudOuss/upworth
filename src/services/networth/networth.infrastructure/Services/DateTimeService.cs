@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
-using System;
+﻿using System;
+using NetworthApplication.Common.Interfaces;
 
-namespace CleanArchitecture.Infrastructure.Services
+namespace NetworthInfrastructure.Services
 {
     public class DateTimeService : IDateTime
     {

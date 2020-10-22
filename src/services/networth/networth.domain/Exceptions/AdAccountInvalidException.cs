@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CleanArchitecture.Domain.Exceptions
+namespace NetworthDomain.Exceptions
 {
     public class AdAccountInvalidException : Exception
     {

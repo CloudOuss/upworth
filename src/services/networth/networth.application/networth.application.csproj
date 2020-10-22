@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>networth.application</RootNamespace>
-    <AssemblyName>networth.application</AssemblyName>
+    <RootNamespace>NetworthApplication</RootNamespace>
+    <AssemblyName>NetworthApplication</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

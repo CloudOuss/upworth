@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Domain.Common;
-using CleanArchitecture.Domain.Enums;
-using CleanArchitecture.Domain.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NetworthDomain.Common;
+using NetworthDomain.Enums;
+using NetworthDomain.Events;
 
-namespace CleanArchitecture.Domain.Entities
+namespace NetworthDomain.Entities
 {
     public class TodoItem : AuditableEntity, IHasDomainEvent
     {
@@ -28,7 +28,7 @@ namespace CleanArchitecture.Domain.Entities
             get => _done;
             set
             {
-                if (value == true && _done == false)
+                if (value && _done == false)
                 {
                     DomainEvents.Add(new TodoItemCompletedEvent(this));
                 }

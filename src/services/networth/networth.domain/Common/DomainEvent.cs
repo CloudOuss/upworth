@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CleanArchitecture.Domain.Common
+namespace NetworthDomain.Common
 {
     public interface IHasDomainEvent
     {

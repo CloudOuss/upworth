@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>networth.domain</RootNamespace>
-    <AssemblyName>networth.domain</AssemblyName>
+    <RootNamespace>NetworthDomain</RootNamespace>
+    <AssemblyName>NetworthDomain</AssemblyName>
   </PropertyGroup>
 
 </Project>
