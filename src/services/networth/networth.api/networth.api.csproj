@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.3.0" />
   </ItemGroup>
 
   <ItemGroup>

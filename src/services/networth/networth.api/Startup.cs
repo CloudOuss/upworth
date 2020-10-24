@@ -10,6 +10,8 @@ using NetworthApi.Services;
 using NetworthApplication.Common.Interfaces;
 using NetworthApplication.Configuration;
 using NetworthInfrastructure.Configuration;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 namespace NetworthApi
 {
@@ -44,6 +46,29 @@ namespace NetworthApi
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            // add open api support
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Upworth API";
+                    document.Info.Description = "API serving networth related data";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Oussama Souayeh",
+                        Email = "oussama@souayeh.me",
+                        Url = "https://github.com/souayo"
+                    };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    };
+                };
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +80,9 @@ namespace NetworthApi
             }
 
             app.UseHttpsRedirection();
-
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseRouting();
 
             app.UseAuthorization();
