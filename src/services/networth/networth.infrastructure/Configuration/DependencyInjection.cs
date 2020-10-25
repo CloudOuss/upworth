@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetworthApplication.Common.Interfaces;
+using NetworthInfrastructure.Dependencies.XpathProvider;
 using NetworthInfrastructure.Files;
 using NetworthInfrastructure.Identity;
 using NetworthInfrastructure.Persistence;
@@ -17,7 +18,7 @@ namespace NetworthInfrastructure.Configuration
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("CleanArchitectureDb"));
+                    options.UseInMemoryDatabase("NetworthDB"));
             }
             else
             {
@@ -40,10 +41,11 @@ namespace NetworthInfrastructure.Configuration
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             services.AddTransient<ISecuritiesService, SecuritiesService>();
+            services.AddTransient<IXpathProvider, XpathProvider>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
+            
             return services;
         }
     }

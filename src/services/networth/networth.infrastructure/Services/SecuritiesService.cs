@@ -1,16 +1,22 @@
 ﻿using System.Threading.Tasks;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Entities;
-using NetworthDomain.Enums;
+using NetworthInfrastructure.Dependencies.XpathProvider;
 
 namespace NetworthInfrastructure.Services
 {
     public class SecuritiesService : ISecuritiesService
     {
+        private readonly IXpathProvider _xpathProvider;
+
+        public SecuritiesService(IXpathProvider xpathProvider)
+        {
+            _xpathProvider = xpathProvider;
+        }
+
         public async Task<Security> GetSecurityDetailsAsync(string tickerSymbol)
         {
-            //todo: use a concrete implementation of the service
-            return new Security(tickerSymbol, Industry.Financials.Value);
+            return await _xpathProvider.GetSecurityDetailsAsync(tickerSymbol);
         }
     }
 }
