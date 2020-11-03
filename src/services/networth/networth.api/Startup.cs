@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetworthApi.Configuration;
 using NetworthApi.Filters;
 using NetworthApi.Services;
 using NetworthApplication.Common.Interfaces;
@@ -34,40 +35,21 @@ namespace NetworthApi
             services.AddInfrastructureLayer(Configuration);
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+
             services.AddHttpContextAccessor();
             services.AddControllers(options =>
                 options.Filters.Add(new ApiExceptionFilter()))
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                }); ;
+                });
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
             // add open api support
-            services.AddSwaggerDocument(config =>
-            {
-                config.PostProcess = document =>
-                {
-                    document.Info.Version = "v1";
-                    document.Info.Title = "Upworth API";
-                    document.Info.Description = "API serving networth related data";
-                    document.Info.TermsOfService = "None";
-                    document.Info.Contact = new NSwag.OpenApiContact
-                    {
-                        Name = "Oussama Souayeh",
-                        Email = "oussama@souayeh.me",
-                        Url = "https://github.com/souayo"
-                    };
-                    document.Info.License = new NSwag.OpenApiLicense
-                    {
-                        Name = "Use under LICX",
-                        Url = "https://example.com/license"
-                    };
-                };
-            });
+            services.AddOpenApiConfiguration();
 
         }
 

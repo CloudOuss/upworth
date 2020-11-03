@@ -18,9 +18,5 @@
     <ProjectReference Include="..\networth.infrastructure\networth.infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
 
 </Project>
