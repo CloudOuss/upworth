@@ -11,8 +11,9 @@ namespace NetworthDomain.Entities
         public string ProjectedDividendAnnualYield { get; set; }
         public string TrailingDividendAnnualYield { get; set; }
         public string DividendGrowth3YearsAverage { get; set; }
-        public string DividendGrowth10YearsAverage { get; set; }
+        public string DividendGrowth5YearsAverage { get; set; }
         public string DividendExDate { get; set; }
+        public string DividendPayDate { get; set; }
         public string ConsecutiveDividendIncreases { get; set; }
 
         protected Security()
@@ -21,7 +22,7 @@ namespace NetworthDomain.Entities
         }
 
         public Security(string ticker, int industryValue, string latestClosePrice, string dividendRate, string projectedDividendAnnualYield, string trailingDividendAnnualYield, string dividendGrowth3YearsAverage, 
-            string dividendGrowth10YearsAverage, string dividendExDate, string consecutiveDividendIncreases)
+            string dividendGrowth5YearsAverage, string dividendExDate, string consecutiveDividendIncreases, string dividendPayDate)
         {
             Ticker = ticker;
             LatestClosePrice = latestClosePrice;
@@ -29,8 +30,9 @@ namespace NetworthDomain.Entities
             ProjectedDividendAnnualYield = projectedDividendAnnualYield;
             TrailingDividendAnnualYield = trailingDividendAnnualYield;
             DividendGrowth3YearsAverage = dividendGrowth3YearsAverage;
-            DividendGrowth10YearsAverage = dividendGrowth10YearsAverage;
+            DividendGrowth5YearsAverage = dividendGrowth5YearsAverage;
             DividendExDate = dividendExDate;
+            DividendPayDate = dividendPayDate;
             ConsecutiveDividendIncreases = consecutiveDividendIncreases;
             Industry = AbstractEnumeration.FromValue<Industry>(industryValue);
         }

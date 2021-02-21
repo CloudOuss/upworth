@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,14 +18,30 @@ namespace wasm
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-            builder.Services.AddMsalAuthentication(options =>
+            builder.Services.AddHttpClient("networthApi", cl =>
             {
-                builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-                options.ProviderOptions.LoginMode = "redirect";
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("openid");
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("offline_access");
+                cl.BaseAddress = new Uri("https://localhost:5002/api/");
+            })
+            .AddHttpMessageHandler(sp =>
+            {
+                var handler = sp.GetService<AuthorizationMessageHandler>()
+                .ConfigureHandler(
+                    authorizedUrls: new[] { "https://localhost:5002" },
+                    scopes: new[] { "networth" }
+                );
+                return handler;
+            });
+        
+            builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("networthApi"));
+
+
+            builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("Identity", options.ProviderOptions);
+                options.ProviderOptions.ResponseType = "code";
+                options.ProviderOptions.DefaultScopes.Add("profile");
+                options.ProviderOptions.DefaultScopes.Add("address");
+                options.ProviderOptions.DefaultScopes.Add("networth");
             });
 
             await builder.Build().RunAsync();

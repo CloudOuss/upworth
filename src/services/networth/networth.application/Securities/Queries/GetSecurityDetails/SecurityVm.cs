@@ -13,8 +13,9 @@ namespace NetworthApplication.Securities.Queries.GetSecurityDetails
         public string ProjectedDividendAnnualYield { get; set; }
         public string TrailingDividendAnnualYield { get; set; }
         public string DividendGrowth3YearsAverage { get; set; }
-        public string DividendGrowth10YearsAverage { get; set; }
+        public string DividendGrowth5YearsAverage { get; set; }
         public string DividendExDate { get; set; }
+        public string DividendPayDate { get; set; }
         public string ConsecutiveDividendIncreases { get; set; }
 
         public void Mapping(Profile profile)

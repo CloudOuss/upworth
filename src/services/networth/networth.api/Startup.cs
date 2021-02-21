@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,17 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetworthApi.Configuration;
 using NetworthApi.Filters;
-using NetworthApi.Services;
-using NetworthApplication.Common.Interfaces;
 using NetworthApplication.Configuration;
 using NetworthInfrastructure.Configuration;
-using NSwag;
-using NSwag.Generation.Processors.Security;
 
 namespace NetworthApi
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,8 +32,6 @@ namespace NetworthApi
             //add infrastructure layer configuration
             services.AddInfrastructureLayer(Configuration);
 
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-
             services.AddHttpContextAccessor();
             services.AddControllers(options =>
                 options.Filters.Add(new ApiExceptionFilter()))
@@ -51,6 +47,25 @@ namespace NetworthApi
             // add open api support
             services.AddOpenApiConfiguration();
 
+            //add identity
+            var identity = Configuration.GetSection("Identity").Get<ConfigureIdentity>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = identity.Authority;
+                    options.Audience = identity.Audience;
+                });
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:5001")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +82,9 @@ namespace NetworthApi
             app.UseSwaggerUi3();
             app.UseRouting();
 
+            app.UseCors();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
