@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetworthApi.Configuration;
 using NetworthApi.Filters;
+using NetworthApi.Services;
+using NetworthApplication.Common.Interfaces;
 using NetworthApplication.Configuration;
 using NetworthInfrastructure.Configuration;
 
@@ -33,6 +35,7 @@ namespace NetworthApi
             services.AddInfrastructureLayer(Configuration);
 
             services.AddHttpContextAccessor();
+            services.AddSingleton<IIdentityService, IdentityService>();
             services.AddControllers(options =>
                 options.Filters.Add(new ApiExceptionFilter()))
                 .AddJsonOptions(options =>
@@ -55,7 +58,7 @@ namespace NetworthApi
                     options.Authority = identity.Authority;
                     options.Audience = identity.Audience;
                 });
-
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using NetworthApplication.Common.Mappings;
 using NetworthDomain.Entities;
+using NetworthDomain.ValueObjects;
 
 namespace NetworthApplication.Securities.Queries.GetSecurityDetails
 {
-    public class SecurityVm : IMapFrom<Security>
+    public class SecurityVm : IMapFrom<HoldingDetails>
     {
         public string Ticker { get; set; }
         public string Industry { get; set; }
@@ -20,7 +21,7 @@ namespace NetworthApplication.Securities.Queries.GetSecurityDetails
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Security, SecurityVm>()
+            profile.CreateMap<HoldingDetails, SecurityVm>()
                 .ForMember(d => d.Industry, opt => opt.MapFrom(s => s.Industry.Name));
         }
     }

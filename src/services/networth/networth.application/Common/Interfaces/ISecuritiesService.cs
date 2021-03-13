@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using NetworthDomain.Entities;
+using NetworthDomain.ValueObjects;
 
 namespace NetworthApplication.Common.Interfaces
 {
     public interface ISecuritiesService
     {
-        Task<Security> GetSecurityDetailsAsync(string tickerSymbol);
+        Task<HoldingDetails> GetSecurityDetailsAsync(string tickerSymbol);
     }
 }

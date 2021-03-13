@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetworthApplication.Common.Interfaces;
 using NetworthInfrastructure.Dependencies.XpathProvider;
+using NetworthInfrastructure.Persistence;
 using NetworthInfrastructure.Services;
 
 namespace NetworthInfrastructure.Configuration
@@ -17,8 +18,11 @@ namespace NetworthInfrastructure.Configuration
             services.AddTransient<ISecuritiesService, SecuritiesService>();
             services.AddTransient<IXpathProvider, XpathProvider>();
 
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer("name=ConnectionStrings:UpworthContext"));
+            
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IDomainEventService, DomainEventService>();
             
             return services;
         }

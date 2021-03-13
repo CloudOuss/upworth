@@ -6,10 +6,8 @@ namespace NetworthDomain.Common
     {
         public DateTime Created { get; set; }
 
-        public string CreatedBy { get; set; }
+        public Guid UserId { get; set; }
 
         public DateTime? LastModified { get; set; }
-
-        public string LastModifiedBy { get; set; }
     }
 }

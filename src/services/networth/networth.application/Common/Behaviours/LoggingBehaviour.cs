@@ -9,19 +9,22 @@ namespace NetworthApplication.Common.Behaviours
     public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
     {
         private readonly ILogger _logger;
+        private readonly IIdentityService _identityService;
 
-        public LoggingBehaviour(ILogger<TRequest> logger)
+        public LoggingBehaviour(ILogger<TRequest> logger, IIdentityService identityService)
         {
             _logger = logger;
+            _identityService = identityService;
         }
 
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
-            string userName = string.Empty;
+            var userId = _identityService.UserId;
+            var userName = _identityService.UserName ?? string.Empty;
 
-            _logger.LogInformation("NetworthApplication Request: {Name} {@UserName} {@Request}",
-                requestName, userName, request);
+            await Task.Run(()=>_logger.LogError("NetworthApplication Request: {Name} {@UserId} {@UserName} {@Request}",
+                requestName, userId, userName, request), cancellationToken);
         }
     }
 }

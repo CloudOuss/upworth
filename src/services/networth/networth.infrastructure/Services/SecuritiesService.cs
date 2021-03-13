@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NetworthApplication.Common.Interfaces;
-using NetworthDomain.Entities;
+using NetworthDomain.ValueObjects;
 using NetworthInfrastructure.Dependencies.XpathProvider;
 
 namespace NetworthInfrastructure.Services
@@ -14,7 +14,7 @@ namespace NetworthInfrastructure.Services
             _xpathProvider = xpathProvider;
         }
 
-        public async Task<Security> GetSecurityDetailsAsync(string tickerSymbol)
+        public async Task<HoldingDetails> GetSecurityDetailsAsync(string tickerSymbol)
         {
             return await _xpathProvider.GetSecurityDetailsAsync(tickerSymbol);
         }

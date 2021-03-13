@@ -13,5 +13,11 @@ namespace NetworthApi.Controllers
         {
             return await Mediator.Send(request);
         }
+
+        [HttpPost]
+        public async Task<SecurityVm> PurchaseSecurity([FromQuery] GetSecurityDetailsQuery request)
+        {
+            return await Mediator.Send(request);
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿using NetworthDomain.Enums;
+﻿using System;
+using System.Collections.Generic;
+using NetworthDomain.Common;
+using NetworthDomain.Enums;
 
-namespace NetworthDomain.Entities
+namespace NetworthDomain.ValueObjects
 {
-    public class Security
+    public class HoldingDetails : ValueObject
     {
-        public string Ticker { get; set; }
         public Industry Industry { get; set; }
         public string LatestClosePrice { get; set; }
         public string DividendRate { get; set; }
@@ -16,15 +18,14 @@ namespace NetworthDomain.Entities
         public string DividendPayDate { get; set; }
         public string ConsecutiveDividendIncreases { get; set; }
 
-        protected Security()
+        protected HoldingDetails()
         {
 
         }
 
-        public Security(string ticker, int industryValue, string latestClosePrice, string dividendRate, string projectedDividendAnnualYield, string trailingDividendAnnualYield, string dividendGrowth3YearsAverage, 
+        public HoldingDetails(int industryValue, string latestClosePrice, string dividendRate, string projectedDividendAnnualYield, string trailingDividendAnnualYield, string dividendGrowth3YearsAverage, 
             string dividendGrowth5YearsAverage, string dividendExDate, string consecutiveDividendIncreases, string dividendPayDate)
         {
-            Ticker = ticker;
             LatestClosePrice = latestClosePrice;
             DividendRate = dividendRate;
             ProjectedDividendAnnualYield = projectedDividendAnnualYield;
@@ -35,6 +36,20 @@ namespace NetworthDomain.Entities
             DividendPayDate = dividendPayDate;
             ConsecutiveDividendIncreases = consecutiveDividendIncreases;
             Industry = AbstractEnumeration.FromValue<Industry>(industryValue);
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Industry;
+            yield return LatestClosePrice;
+            yield return DividendRate;
+            yield return ProjectedDividendAnnualYield;
+            yield return TrailingDividendAnnualYield;
+            yield return DividendGrowth3YearsAverage;
+            yield return DividendGrowth5YearsAverage;
+            yield return DividendExDate;
+            yield return DividendPayDate;
+            yield return ConsecutiveDividendIncreases;
         }
     }
 }

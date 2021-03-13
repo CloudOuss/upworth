@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using NetworthDomain.Entities;
+using NetworthDomain.ValueObjects;
 
 namespace NetworthInfrastructure.Dependencies.XpathProvider
 {
@@ -21,7 +22,7 @@ namespace NetworthInfrastructure.Dependencies.XpathProvider
         public const string Industry = "/html/body/div[2]/div[1]/div/div/div/div[2]/div/div/div[2]/div[1]/div[3]/p/a[3]";
         //
 
-        public async Task<Security> GetSecurityDetailsAsync(string ticker)
+        public async Task<HoldingDetails> GetSecurityDetailsAsync(string ticker)
         {
             var browser = new HtmlWeb();
             var doc = await browser.LoadFromWebAsync($"https://www.dividendinvestor.com/dividend-quote/{ticker}/");
@@ -38,7 +39,7 @@ namespace NetworthInfrastructure.Dependencies.XpathProvider
             var segment = doc.DocumentNode.SelectSingleNode(Segment)?.InnerText;
             var industry = doc.DocumentNode.SelectSingleNode(Industry)?.InnerText;
 
-            return new Security(ticker, GetIndustryValue(sector, segment, industry), latestClosePrice, dividendRate,
+            return new HoldingDetails(GetIndustryValue(sector, segment, industry), latestClosePrice, dividendRate,
                 projectedDividendAnnualYield, trailingDividendAnnualYield, dividendGrowth3YearsAverage,
                 dividendGrowth5YearsAverage, dividendExDate, consecutiveDividendIncreases, dividendPayDate);
         }

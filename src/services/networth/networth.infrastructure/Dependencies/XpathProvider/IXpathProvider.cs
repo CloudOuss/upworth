@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using NetworthDomain.Entities;
+using NetworthDomain.ValueObjects;
 
 namespace NetworthInfrastructure.Dependencies.XpathProvider
 {
     public interface IXpathProvider
     {
-        Task<Security> GetSecurityDetailsAsync(string ticker);
+        Task<HoldingDetails> GetSecurityDetailsAsync(string ticker);
     }
 }
