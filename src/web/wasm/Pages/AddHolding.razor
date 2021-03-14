@@ -10,14 +10,14 @@
 <input @bind="buyPrice" placeholder="buyPrice" />
 <input @bind="shareNumber" placeholder="shareNumber" type="number" />
 
-<button @onclick="@AddHolding">Add</button>
+<button @onclick="@addHoldingTask">Add</button>
 
 @code {
     private string ticker;
     private double buyPrice;
     private int shareNumber;
 
-    private async Task AddHolding()
+    private async Task addHoldingTask()
     {
         var holding = new AddHoldingRequest { Ticker = ticker, BuyPrice = buyPrice, ShareNumber = shareNumber };
         await Http.PostAsJsonAsync("holdings", holding);

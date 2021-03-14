@@ -15,7 +15,7 @@ namespace NetworthDomain.Entities
 
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
 
-        public HoldingDetails HoldingDetails { get; private set; }
+        public HoldingDetails HoldingDetails { get; set; }
 
 
         protected Holding()
@@ -30,13 +30,7 @@ namespace NetworthDomain.Entities
             BuyPrice = buyPrice;
             SharesNumber = shareNumber;
             Created = dateCreated;
-        }
-
-
-
-        public void SetHoldingDetails()
-        {
-
+            HoldingDetails = null;
         }
     }
 }

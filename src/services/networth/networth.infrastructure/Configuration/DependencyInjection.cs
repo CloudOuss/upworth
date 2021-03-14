@@ -16,6 +16,7 @@ namespace NetworthInfrastructure.Configuration
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<ISecuritiesService, SecuritiesService>();
+            services.AddTransient<IHoldingsService, HoldingsService>();
             services.AddTransient<IXpathProvider, XpathProvider>();
 
             services.AddDbContext<ApplicationDbContext>(

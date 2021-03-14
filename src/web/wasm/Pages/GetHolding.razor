@@ -1,0 +1,63 @@
+﻿@page "/getholding"
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Holdings
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h1>Get Holding</h1>
+
+
+<p><em>please fill the holding id ...</em></p>
+
+<input @bind="_id" placeholder="id" />
+<button @onclick="@GetHoldingTask">get holding</button>
+
+@if (_holding != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticker</th>
+                <th>BuyPrice</th>
+                <th>SharesNumber</th>
+                <th>PurchaseDate</th>
+                <th>Industry</th>
+                <th>LatestClosePrice</th>
+                <th>DividendRate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@_holding.Ticker</td>
+                <td>@_holding.BuyPrice</td>
+                <td>@_holding.SharesNumber</td>
+                <td>@_holding.PurchaseDate</td>
+                <td>@_holding.HoldingDetails.Industry</td>
+                <td>@_holding.HoldingDetails.LatestClosePrice</td>
+                <td>@_holding.HoldingDetails.DividendRate</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private Guid _id;
+    private HoldingVm _holding;
+    
+    private async Task GetHoldingTask(MouseEventArgs e)
+    {
+        try
+        {
+            _holding = await Http.GetFromJsonAsync<HoldingVm>($"holdings?id={_id}", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, MaxDepth = 10});
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}
