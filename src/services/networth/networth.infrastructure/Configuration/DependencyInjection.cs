@@ -19,7 +19,8 @@ namespace NetworthInfrastructure.Configuration
             services.AddTransient<IXpathProvider, XpathProvider>();
 
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer("name=ConnectionStrings:UpworthContext"));
+                options => options.UseSqlServer(configuration
+                    .GetConnectionString("UpworthConnection")));
             
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IDomainEventService, DomainEventService>();

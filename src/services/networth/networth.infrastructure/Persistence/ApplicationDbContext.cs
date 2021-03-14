@@ -18,7 +18,7 @@ namespace NetworthInfrastructure.Persistence
         private readonly IDomainEventService _domainEventService;
 
         public ApplicationDbContext(
-            DbContextOptions options,
+            DbContextOptions<ApplicationDbContext> options,
             IIdentityService identityService,
             IDomainEventService domainEventService,
             IDateTime dateTime) : base(options)
@@ -38,7 +38,10 @@ namespace NetworthInfrastructure.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.UserId = _identityService.UserId;
-                        entry.Entity.Created = _dateTime.Now;
+                        if (entry.Entity.Created == default)
+                        {
+                            entry.Entity.Created = _dateTime.Now ;
+                        }
                         break;
 
                     case EntityState.Modified:

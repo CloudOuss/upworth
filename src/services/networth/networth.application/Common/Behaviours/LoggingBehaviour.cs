@@ -23,7 +23,7 @@ namespace NetworthApplication.Common.Behaviours
             var userId = _identityService.UserId;
             var userName = _identityService.UserName ?? string.Empty;
 
-            await Task.Run(()=>_logger.LogError("NetworthApplication Request: {Name} {@UserId} {@UserName} {@Request}",
+            await Task.Run(()=>_logger.LogInformation("NetworthApplication Request: {Name} {@UserId} {@UserName} {@Request}",
                 requestName, userId, userName, request), cancellationToken);
         }
     }

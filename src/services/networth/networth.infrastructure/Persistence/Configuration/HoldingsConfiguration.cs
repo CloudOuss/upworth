@@ -9,6 +9,7 @@ namespace NetworthInfrastructure.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Holding> builder)
         {
             builder.Ignore(e => e.HoldingDetails);
+            builder.Ignore(e => e.DomainEvents);
         }
     }
 }

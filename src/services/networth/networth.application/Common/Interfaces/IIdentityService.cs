@@ -5,7 +5,7 @@ namespace NetworthApplication.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Guid UserId { get; }
+        string UserId { get; }
         string UserName { get; }
     }
 }

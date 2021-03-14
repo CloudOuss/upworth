@@ -1,53 +1,26 @@
-@page "/fetchdata"
+@page "/addholding"
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using NetworthApplication.Securities.Queries.GetSecurityDetails
+@using NetworthApplication.Holdings.AddHolding
 @attribute [Authorize]
 @inject HttpClient Http
 
-<h1>Weather forecast</h1>
+<h1>Add Holding</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<input @bind="ticker" placeholder="ticker" />
+<input @bind="buyPrice" placeholder="buyPrice" />
+<input @bind="shareNumber" placeholder="shareNumber" type="number" />
 
-@if (security == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Ticker</th>
-                <th>Industry</th>
-                <th>LatestClosePrice</th>
-                <th>DividendRate</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@security.Ticker</td>
-                <td>@security.Industry</td>
-                <td>@security.LatestClosePrice</td>
-                <td>@security.DividendRate</td>
-            </tr>
-        </tbody>
-    </table>
-}
+<button @onclick="@AddHolding">Add</button>
 
 @code {
-    private SecurityVm security;
+    private string ticker;
+    private double buyPrice;
+    private int shareNumber;
 
-    protected override async Task OnInitializedAsync()
+    private async Task AddHolding()
     {
-        try
-        {
-            security = await Http.GetFromJsonAsync<SecurityVm>("securities?ticker=o");
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+        var holding = new AddHoldingRequest { Ticker = ticker, BuyPrice = buyPrice, ShareNumber = shareNumber };
+        await Http.PostAsJsonAsync("holdings", holding);
     }
 
 }

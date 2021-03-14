@@ -34,7 +34,7 @@ namespace NetworthApplication.Common.Behaviours
                 var requestName = typeof(TRequest).Name;
                 var userName = string.Empty;
 
-                _logger.LogWarning("CleanArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserName} {@Request}",
+                _logger.LogWarning("NetworthApplication Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserName} {@Request}",
                     requestName, elapsedMilliseconds, userName, request);
             }
 
