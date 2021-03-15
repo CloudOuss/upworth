@@ -1,0 +1,59 @@
+@page "/accounts"  
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Accounts
+@attribute [Authorize]
+@inject HttpClient Http
+  
+<h1>Employee Data</h1>  
+<p>This component demonstrates fetching Employee data from the server.</p>  
+<p>  
+    <a href="/accounts/create">Create New</a>  
+</p>  
+
+@if (_accounts == null)  
+{  
+    <p><em>Loading...</em></p>  
+}  
+else  
+{  
+    <table class='table'>  
+        <thead>  
+            <tr>
+                <th>Name</th>  
+                <th>Gender</th>
+            </tr>  
+        </thead>  
+        <tbody>  
+            @foreach (var account in _accounts)  
+            {  
+                <tr>   
+                    <td>@account.Name</td>  
+                    <td>@account.AccountType</td>
+                    <td>  
+                        <a href='/accounts/@account.Id'>Edit</a>  |  
+                        <a href='/accounts/delete/@account.Id'>Delete</a>  
+                    </td>  
+                </tr>  
+            }  
+        </tbody>  
+    </table>  
+}  
+  
+@code {  
+    List<AccountVm> _accounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _accounts = await Http.GetFromJsonAsync<List<AccountVm>>($"accounts", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, AllowTrailingCommas = true});
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}  

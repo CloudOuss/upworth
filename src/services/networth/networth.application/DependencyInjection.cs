@@ -1,11 +1,10 @@
 ﻿using System.Reflection;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NetworthApplication.Common.Behaviours;
 
-namespace NetworthApplication.Configuration
+namespace NetworthApplication
 {
     public static class DependencyInjection
     {

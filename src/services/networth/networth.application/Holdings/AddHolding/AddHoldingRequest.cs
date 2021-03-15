@@ -13,7 +13,7 @@ namespace NetworthApplication.Holdings.AddHolding
         public string Ticker { get; set; }
         public double BuyPrice { get; set; }
         public int ShareNumber { get; set; }
-        public DateTime DataAdded { get; set; }
+        public DateTime? BuyDate { get; set; }
     }
 
     public class AddHoldingRequestHandler : IRequestHandler<AddHoldingRequest, Guid>
@@ -27,7 +27,7 @@ namespace NetworthApplication.Holdings.AddHolding
 
         public async Task<Guid> Handle(AddHoldingRequest request, CancellationToken cancellationToken)
         {
-            var entity = new Holding(request.Ticker, request.BuyPrice, request.ShareNumber, request.DataAdded);
+            var entity = new Holding(request.Ticker, request.BuyPrice, request.ShareNumber, request.BuyDate);
             entity.DomainEvents.Add(new HoldingPurchasedEvent(entity));
 
             _context.Holdings.Add(entity);

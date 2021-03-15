@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NetworthDomain.Common;
-using NetworthDomain.Enums;
 using NetworthDomain.ValueObjects;
 
 namespace NetworthDomain.Entities
@@ -12,24 +11,23 @@ namespace NetworthDomain.Entities
         public string Ticker { get; set; }
         public double BuyPrice { get; set; }
         public int SharesNumber { get; set; }
-
-        public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
-
+        public Account Account { get; set; }
         public HoldingDetails HoldingDetails { get; set; }
 
+        public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
 
         protected Holding()
         {
 
         }
 
-        public Holding(string ticker, double buyPrice, int shareNumber, DateTime dateCreated)
+        public Holding(string ticker, double buyPrice, int shareNumber, DateTime? dateCreated)
         {
             Id = Guid.NewGuid();
             Ticker = ticker;
             BuyPrice = buyPrice;
             SharesNumber = shareNumber;
-            Created = dateCreated;
+            Created = dateCreated ?? default;
             HoldingDetails = null;
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.Persistence.Migrations
+namespace NetworthInfrastructure.Persistence.Migrations
 {
     public partial class InitialMigration : Migration
     {

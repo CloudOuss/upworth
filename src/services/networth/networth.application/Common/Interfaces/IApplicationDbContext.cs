@@ -8,6 +8,7 @@ namespace NetworthApplication.Common.Interfaces
     public interface IApplicationDbContext
     {
         DbSet<Holding> Holdings { get; set; }
+        DbSet<Account> Accounts { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

@@ -6,7 +6,7 @@ using NetworthInfrastructure.Dependencies.XpathProvider;
 using NetworthInfrastructure.Persistence;
 using NetworthInfrastructure.Services;
 
-namespace NetworthInfrastructure.Configuration
+namespace NetworthInfrastructure
 {
     public static class DependencyInjection
     {

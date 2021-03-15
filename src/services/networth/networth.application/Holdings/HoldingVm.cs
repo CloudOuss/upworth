@@ -16,7 +16,7 @@ namespace NetworthApplication.Holdings
         public int SharesNumber { get; set; }
         public DateTime PurchaseDate { get; set; }
         [JsonPropertyName("holdingDetails")]
-        public HoldingDetailsDto HoldingDetails { get; private set; }
+        public HoldingDetailsDto HoldingDetails { get; set; }
 
         public void Mapping(Profile profile)
         {

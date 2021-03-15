@@ -163,5 +163,10 @@ namespace NetworthDomain.Enums
 
             return matchingItem;
         }
+
+        public static bool TryGetFromValueOrName<T>(string type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,9 +9,9 @@ using Microsoft.Extensions.Hosting;
 using NetworthApi.Configuration;
 using NetworthApi.Filters;
 using NetworthApi.Services;
+using NetworthApplication;
 using NetworthApplication.Common.Interfaces;
-using NetworthApplication.Configuration;
-using NetworthInfrastructure.Configuration;
+using NetworthInfrastructure;
 
 namespace NetworthApi
 {

@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Common;
 using NetworthDomain.Entities;
+using NetworthDomain.Enums;
 using NetworthDomain.ValueObjects;
+using NetworthInfrastructure.Persistence.Configuration;
 
 namespace NetworthInfrastructure.Persistence
 {
@@ -29,6 +31,7 @@ namespace NetworthInfrastructure.Persistence
         }
 
         public DbSet<Holding> Holdings { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -85,6 +88,7 @@ namespace NetworthInfrastructure.Persistence
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            AccountTypesConfiguration.SeedData(builder);
             base.OnModelCreating(builder);
         }
 

@@ -1,0 +1,60 @@
+@page "/accounts/create"
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Http.Extensions
+@using NetworthApplication.Accounts
+@using NetworthApplication.Accounts.CreateAccount
+@using NetworthApplication.Holdings.AddHolding
+
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Create</h1>
+<h3>Account</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input for="Name" class="form-control" @bind="account.Name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Gender</label>
+                <select asp-for="Gender" class="form-control" @bind="account.Type">
+                    <option value="">-- Select Account Type --</option>
+                    <option value="RRSP">RRSP</option>
+                    <option value="TFSA">TFSA</option>
+                    <option value="LIRA">LIRA</option>
+                    <option value="TAXABLE">TAXABLE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" @onclick="@CreateAccountTask">Save</button>
+                <button class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+    </div>
+</div>
+
+@code {
+    private CreateAccountRequest account = new CreateAccountRequest() ;
+    protected async Task CreateAccountTask()
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("accounts", account);
+            NavigationManager.NavigateTo("./accounts");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("./accounts");
+    }
+}
+
+}  

@@ -34,7 +34,10 @@ namespace NetworthApplication.Holdings.GetHoldingById
                 .AsNoTracking()
                 .FirstOrDefaultAsync(h => h.Id == request.Id && h.UserId == _identityService.UserId, cancellationToken: cancellationToken);
 
-            holding.HoldingDetails = await _holdingsService.GetDetailsByTickerAsync(holding.Ticker);
+            if(holding != null){
+                holding.HoldingDetails = await _holdingsService.GetDetailsByTickerAsync(holding.Ticker);
+            }
+            
             return _mapper.Map<HoldingVm>(holding);
         }
     }

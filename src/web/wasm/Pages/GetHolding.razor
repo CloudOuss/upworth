@@ -33,7 +33,7 @@
                 <td>@_holding.Ticker</td>
                 <td>@_holding.BuyPrice</td>
                 <td>@_holding.SharesNumber</td>
-                <td>@_holding.PurchaseDate</td>
+                <td>@_holding.PurchaseDate.Date</td>
                 <td>@_holding.HoldingDetails.Industry</td>
                 <td>@_holding.HoldingDetails.LatestClosePrice</td>
                 <td>@_holding.HoldingDetails.DividendRate</td>
@@ -52,7 +52,7 @@
     {
         try
         {
-            _holding = await Http.GetFromJsonAsync<HoldingVm>($"holdings?id={_id}", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, MaxDepth = 10});
+            _holding = await Http.GetFromJsonAsync<HoldingVm>($"holdings?id={_id}", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, AllowTrailingCommas = true});
         }
         catch (AccessTokenNotAvailableException exception)
         {

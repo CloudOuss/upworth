@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{B0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "networth.infrastructure", "services\networth\networth.infrastructure\networth.infrastructure.csproj", "{F4E70F20-80AC-4CA8-8E82-9835EE22B859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DELETE", "DELETE\DELETE.csproj", "{59B1C3C5-F174-4276-8F02-358921953A02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F4E70F20-80AC-4CA8-8E82-9835EE22B859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4E70F20-80AC-4CA8-8E82-9835EE22B859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4E70F20-80AC-4CA8-8E82-9835EE22B859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B1C3C5-F174-4276-8F02-358921953A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B1C3C5-F174-4276-8F02-358921953A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B1C3C5-F174-4276-8F02-358921953A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B1C3C5-F174-4276-8F02-358921953A02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
