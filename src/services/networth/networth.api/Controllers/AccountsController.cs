@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetworthApplication.Accounts;
 using NetworthApplication.Accounts.CreateAccount;
+using NetworthApplication.Accounts.DeleteAccount;
+using NetworthApplication.Accounts.GetAccountById;
 using NetworthApplication.Accounts.GetAccounts;
 using NetworthApplication.Accounts.UpdateAccount;
 
@@ -15,9 +17,15 @@ namespace NetworthApi.Controllers
     {
 
         [HttpGet]
-        public async Task<List<AccountVm>> Get()
+        public async Task<List<AccountVm>> GetAll()
         {
             return await Mediator.Send(new GetAccountsRequest());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<AccountVm> Get(Guid id)
+        {
+            return await Mediator.Send(new GetAccountByIdRequest{Id = id});
         }
 
         [HttpPost]
@@ -35,7 +43,13 @@ namespace NetworthApi.Controllers
             }
 
             await Mediator.Send(request);
+            return NoContent();
+        }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await Mediator.Send(new DeleteAccountRequest{Id = id});
             return NoContent();
         }
     }

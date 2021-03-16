@@ -131,7 +131,7 @@ namespace NetworthDomain.Enums
         /// <exception cref="InvalidOperationException">"<paramref name="name"/> is not valid"</exception> 
         public static TEnumeration FromName<TEnumeration>(string name) where TEnumeration : AbstractEnumeration
         {
-            var matchingItem = Parse<TEnumeration, string>(name, "name", item => item.Name == name);
+            var matchingItem = Parse<TEnumeration, string>(name, "name", item => string.Equals(item.Name, name, StringComparison.InvariantCultureIgnoreCase));
             return matchingItem;
         }
 

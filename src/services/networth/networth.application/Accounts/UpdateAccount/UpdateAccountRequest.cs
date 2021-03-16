@@ -13,7 +13,8 @@ namespace NetworthApplication.Accounts.UpdateAccount
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
+        public int Institution { get; set; }
 
     }
 
@@ -35,11 +36,11 @@ namespace NetworthApplication.Accounts.UpdateAccount
                 throw new NotFoundException(nameof(Account), request.Id);
             }
 
-            entity.AccountType = AbstractEnumeration.FromName<AccountType>(request.Type);
             entity.Name = request.Name;
+            entity.SetAccountType(AbstractEnumeration.FromValue<AccountType>(request.Type));
+            entity.SetInstitution(AbstractEnumeration.FromValue<Institution>(request.Institution));
 
             await _context.SaveChangesAsync(cancellationToken);
-
             return Unit.Value;
         }
     }

@@ -1,27 +1,31 @@
-@page "/accounts/create"
-@using System.Text.Json
+@page "/accounts/{employeeId:guid}/edit"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Microsoft.AspNetCore.Http.Extensions
 @using NetworthApplication.Accounts
-@using NetworthApplication.Accounts.CreateAccount
+@using NetworthApplication.Accounts.UpdateAccount
 
 @attribute [Authorize]
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h1>Create</h1>
+<h1>Edit</h1>
 <h3>Account</h3>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+@if (account == null)  
+{  
+    <p><em>Loading...</em></p>  
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Name</label>
-                <input asp-for="Name" class="form-control" @bind="account.Name" />
+                <input asp-for="Name" class="form-control" @bind="account.Name"/>
             </div>
             <div class="form-group">
                 <label asp-for="Institution" class="control-label">Institution</label>
-                <select asp-for="Institution" class="form-control" @bind="account.Institution">
+                <select asp-for="Institution" class="form-control" @bind="account.InstitutionId">
                     <option value="">-- Select Institution --</option>
                     <option value="1">Questrade</option>
                     <option value="2">Wealthsimple</option>
@@ -29,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label">Account Type</label>
-                <select asp-for="Type" class="form-control" @bind="account.Type">
+                <select asp-for="Type" class="form-control" @bind="account.AccountTypeId">
                     <option value="">-- Select Account Type --</option>
                     <option value="1">RRSP</option>
                     <option value="2">TFSA</option>
@@ -38,19 +42,35 @@
                 </select>
             </div>
             <div class="form-group">
-                <button class="btn btn-default" @onclick="@CreateAccountTask">Save</button>
+                <button class="btn btn-default" @onclick="@UpdateAccountTask">Save</button>
                 <button class="btn" @onclick="@Cancel">Cancel</button>
             </div>
+        </div>
     </div>
-</div>
+}
 
 @code {
-    private CreateAccountRequest account = new CreateAccountRequest() ;
-    protected async Task CreateAccountTask()
+    [Parameter]
+    public Guid EmployeeId { get; set; }
+    private AccountVm account = new AccountVm();
+
+    protected override async Task OnInitializedAsync()
+    {
+        account = await Http.GetFromJsonAsync<AccountVm>($"accounts/{EmployeeId}");
+    }
+
+    protected async Task UpdateAccountTask()
     {
         try
         {
-            await Http.PostAsJsonAsync("accounts", account);
+            var request = new UpdateAccountRequest
+            {
+                Id = EmployeeId, 
+                Institution = account.InstitutionId, 
+                Name = account.Name, 
+                Type = account.AccountTypeId
+            };
+            await Http.PutAsJsonAsync($"accounts/{EmployeeId}", request);
             NavigationManager.NavigateTo("./accounts");
         }
         catch (AccessTokenNotAvailableException exception)
@@ -58,8 +78,9 @@
             exception.Redirect();
         }
     }
+
     void Cancel()
     {
         NavigationManager.NavigateTo("./accounts");
     }
-}
+}  

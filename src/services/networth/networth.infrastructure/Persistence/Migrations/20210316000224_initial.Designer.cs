@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetworthInfrastructure.Persistence;
 
 namespace NetworthInfrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316000224_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,8 +46,6 @@ namespace NetworthInfrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountTypeId");
 
                     b.HasIndex("InstitutionId");
 
@@ -100,7 +100,7 @@ namespace NetworthInfrastructure.Persistence.Migrations
 
                     b.HasKey("Value");
 
-                    b.ToTable("AccountTypes");
+                    b.ToTable("AccountType");
 
                     b.HasData(
                         new
@@ -115,12 +115,12 @@ namespace NetworthInfrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Value = 3,
+                            Value = 4,
                             Name = "LIRA"
                         },
                         new
                         {
-                            Value = 4,
+                            Value = 3,
                             Name = "Taxable"
                         });
                 });
@@ -139,7 +139,7 @@ namespace NetworthInfrastructure.Persistence.Migrations
 
                     b.HasKey("Value");
 
-                    b.ToTable("Institutions");
+                    b.ToTable("Institution");
 
                     b.HasData(
                         new
@@ -156,12 +156,6 @@ namespace NetworthInfrastructure.Persistence.Migrations
 
             modelBuilder.Entity("NetworthDomain.Entities.Account", b =>
                 {
-                    b.HasOne("NetworthDomain.Enums.AccountType", null)
-                        .WithMany()
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("NetworthDomain.Enums.Institution", null)
                         .WithMany()
                         .HasForeignKey("InstitutionId")

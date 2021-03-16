@@ -21,21 +21,23 @@ else
     <table class='table'>  
         <thead>  
             <tr>
-                <th>Name</th>  
-                <th>Gender</th>
+                <th>Name</th>
+                <th>Account Type</th>
+                <th>Institution</th>
             </tr>  
         </thead>  
         <tbody>  
             @foreach (var account in _accounts)  
             {  
-                <tr>   
-                    <td>@account.Name</td>  
-                    <td>@account.AccountType</td>
-                    <td>  
-                        <a href='/accounts/@account.Id'>Edit</a>  |  
-                        <a href='/accounts/delete/@account.Id'>Delete</a>  
-                    </td>  
-                </tr>  
+            <tr>
+                <td>@account.Name</td>
+                <td>@account.AccountType</td>
+                <td>@account.Institution</td>
+                <td>
+                    <a href='/accounts/@account.Id/edit'>Edit</a>  |
+                    <a href='/accounts/@account.Id/delete'>Delete</a>
+                </td>
+            </tr>  
             }  
         </tbody>  
     </table>  

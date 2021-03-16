@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetworthInfrastructure.Persistence;
 
-namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.Persistence.Migrations
+namespace NetworthInfrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210315021827_AccountTypes")]
-    partial class AccountTypes
+    [Migration("20210316045306_initial2")]
+    partial class initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,11 +27,14 @@ namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.P
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("AccountTypeValue")
+                    b.Property<int>("AccountTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("InstitutionId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -44,7 +47,9 @@ namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.P
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountTypeValue");
+                    b.HasIndex("AccountTypeId");
+
+                    b.HasIndex("InstitutionId");
 
                     b.ToTable("Accounts");
                 });
@@ -97,7 +102,7 @@ namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.P
 
                     b.HasKey("Value");
 
-                    b.ToTable("AccountType");
+                    b.ToTable("AccountTypes");
 
                     b.HasData(
                         new
@@ -112,23 +117,58 @@ namespace NetworthInfrastructure.src.services.networth.networth.infrastructure.P
                         },
                         new
                         {
-                            Value = 4,
+                            Value = 3,
                             Name = "LIRA"
                         },
                         new
                         {
-                            Value = 3,
+                            Value = 4,
                             Name = "Taxable"
+                        });
+                });
+
+            modelBuilder.Entity("NetworthDomain.Enums.Institution", b =>
+                {
+                    b.Property<int>("Value")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("Institutions");
+
+                    b.HasData(
+                        new
+                        {
+                            Value = 1,
+                            Name = "Questrade"
+                        },
+                        new
+                        {
+                            Value = 2,
+                            Name = "Wealthsimple"
                         });
                 });
 
             modelBuilder.Entity("NetworthDomain.Entities.Account", b =>
                 {
-                    b.HasOne("NetworthDomain.Enums.AccountType", "AccountType")
+                    b.HasOne("NetworthDomain.Enums.AccountType", null)
                         .WithMany()
-                        .HasForeignKey("AccountTypeValue");
+                        .HasForeignKey("AccountTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AccountType");
+                    b.HasOne("NetworthDomain.Enums.Institution", null)
+                        .WithMany()
+                        .HasForeignKey("InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NetworthDomain.Entities.Holding", b =>

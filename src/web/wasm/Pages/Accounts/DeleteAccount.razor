@@ -1,0 +1,70 @@
+@page "/accounts/{employeeId:guid}/delete"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Accounts
+
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Edit</h1>
+<h3>Account</h3>
+<hr />
+@if (account == null)  
+{  
+    <p><em>Loading...</em></p>  
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table">    
+                <tr>    
+                    <td>Name</td>    
+                    <td>@account.Name</td>    
+                </tr>    
+                <tr>    
+                    <td>Account Type</td>    
+                    <td>@account.AccountType</td>    
+                </tr>    
+                <tr>    
+                    <td>Institution</td>    
+                    <td>@account.Institution</td>    
+                </tr>
+            </table>  
+            <div class="form-group">
+                <button class="btn btn-default" @onclick="@DeleteAccountTask">Delete</button>
+                <button class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid EmployeeId { get; set; }
+    private AccountVm account = new AccountVm();
+
+    protected override async Task OnInitializedAsync()
+    {
+        account = await Http.GetFromJsonAsync<AccountVm>($"accounts/{EmployeeId}");
+    }
+
+    protected async Task DeleteAccountTask()
+    {
+        try
+        {
+            await Http.DeleteAsync($"accounts/{EmployeeId}");
+            NavigationManager.NavigateTo("./accounts");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("./accounts");
+    }
+}  

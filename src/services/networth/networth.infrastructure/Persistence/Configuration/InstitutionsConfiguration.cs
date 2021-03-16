@@ -4,11 +4,11 @@ using NetworthDomain.Enums;
 
 namespace NetworthInfrastructure.Persistence.Configuration
 {
-    public class AccountTypesConfiguration : IEntityTypeConfiguration<AccountType>
+    public class InstitutionsConfiguration : IEntityTypeConfiguration<Institution>
     {
-        public void Configure(EntityTypeBuilder<AccountType> builder)
+        public void Configure(EntityTypeBuilder<Institution> builder)
         {
-            builder.ToTable("AccountTypes");
+            builder.ToTable("Institutions");
             builder.HasKey(e => e.Value);
 
             builder.Property(t => t.Value)
@@ -20,10 +20,8 @@ namespace NetworthInfrastructure.Persistence.Configuration
 
         public static void SeedData(ModelBuilder builder)
         {
-            builder.Entity<AccountType>().HasData(AccountType.Rrsp);
-            builder.Entity<AccountType>().HasData(AccountType.Tfsa);
-            builder.Entity<AccountType>().HasData(AccountType.Lira);
-            builder.Entity<AccountType>().HasData(AccountType.Taxable);
+            builder.Entity<Institution>().HasData(Institution.Questrade);
+            builder.Entity<Institution>().HasData(Institution.Wealthsimple);
         }
     }
 }

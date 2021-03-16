@@ -24,4 +24,8 @@
     <ProjectReference Include="..\networth.application\networth.application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Common;
 using NetworthDomain.Entities;
-using NetworthDomain.Enums;
-using NetworthDomain.ValueObjects;
 using NetworthInfrastructure.Persistence.Configuration;
 
 namespace NetworthInfrastructure.Persistence
@@ -89,6 +87,7 @@ namespace NetworthInfrastructure.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             AccountTypesConfiguration.SeedData(builder);
+            InstitutionsConfiguration.SeedData(builder);
             base.OnModelCreating(builder);
         }
 

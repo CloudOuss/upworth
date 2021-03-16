@@ -6,7 +6,10 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Entities;
+using NetworthDomain.Enums;
 
 namespace NetworthApplication.Accounts.GetAccounts
 
@@ -21,21 +24,33 @@ namespace NetworthApplication.Accounts.GetAccounts
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IIdentityService _identityService;
+        private readonly ILogger<GetAccountsRequestHandler> _logger;
 
-        public GetAccountsRequestHandler(IApplicationDbContext context, IMapper mapper, IIdentityService identityService)
+        public GetAccountsRequestHandler(IApplicationDbContext context, IMapper mapper, IIdentityService identityService, ILogger<GetAccountsRequestHandler> logger)
         {
             _context = context;
             _mapper = mapper;
             _identityService = identityService;
+            _logger = logger;
         }
 
         public async Task<List<AccountVm>> Handle(GetAccountsRequest request, CancellationToken cancellationToken)
         {
-            return await _context.Accounts
+            var results= new List<AccountVm>();
+
+            var accounts =  _context.Accounts
                 .Where(x=>x.UserId == _identityService.UserId)
                 .OrderBy(x => x.Name)
-                .ProjectTo<AccountVm>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken: cancellationToken);
+                .ToList();
+
+            foreach (Account account in accounts)
+            {
+                account.SetAccountType(AbstractEnumeration.FromValue<AccountType>(account.AccountTypeId));
+                account.SetInstitution(AbstractEnumeration.FromValue<Institution>(account.InstitutionId));
+                results.Add(_mapper.Map<AccountVm>(account));
+            }
+            
+            return await Task.Run(() => results.ToList(), cancellationToken);
         }
     }
 }

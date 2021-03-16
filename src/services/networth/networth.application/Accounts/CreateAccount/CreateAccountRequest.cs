@@ -11,8 +11,8 @@ namespace NetworthApplication.Accounts.CreateAccount
     public class CreateAccountRequest : IRequest<Guid>
     {
         public string Name { get; set; }
-
-        public string Type { get; set; }
+        public int Institution { get; set; }
+        public int Type { get; set; }
     }
 
     public class CreateAccountRequestHandler : IRequestHandler<CreateAccountRequest, Guid>
@@ -26,11 +26,9 @@ namespace NetworthApplication.Accounts.CreateAccount
 
         public async Task<Guid> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
         {
-            var entity = new Account()
-            {
-                AccountType = AbstractEnumeration.FromName<AccountType>(request.Type),
-                Name = request.Name
-            };
+            var entity = new Account(request.Name, 
+                AbstractEnumeration.FromValue<Institution>(request.Institution),
+                AbstractEnumeration.FromValue<AccountType>(request.Type));
 
             _context.Accounts.Add(entity);
 
