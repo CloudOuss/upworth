@@ -10,8 +10,8 @@ using NetworthInfrastructure.Persistence;
 namespace NetworthInfrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210316045306_initial2")]
-    partial class initial2
+    [Migration("20210328184414_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,16 +63,16 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("BuyPrice")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SharesNumber")
+                    b.Property<double>("PurchasePrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Shares")
                         .HasColumnType("int");
 
                     b.Property<string>("Ticker")

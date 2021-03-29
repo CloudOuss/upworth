@@ -1,0 +1,99 @@
+@page "/holdings/{Id:guid}/edit"
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Accounts
+@using NetworthApplication.Holdings
+@using NetworthApplication.Holdings.UpdateHolding
+
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Edit</h1>
+<h3>holding</h3>
+<hr />
+@if (_holding == null || _accounts == null)  
+{  
+    <p><em>Loading...</em></p>  
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Ticker</label>
+                <span>@_holding.Ticker</span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Shares" class="control-label">Shares</label>
+                <input asp-for="Shares" type="number" class="form-control" @bind="_holding.Shares" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchasePrice" class="control-label">Purchase Price</label>
+                <input asp-for="PurchasePrice" class="form-control" @bind="_holding.PurchasePrice" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseDate" class="control-label">Purchase Date</label>
+                <input asp-for="PurchaseDate" type="date" class="form-control" @bind="_holding.PurchaseDate" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Account" class="control-label">Account</label>
+                <select class="custom-select" @bind="_accountId" title="Account">
+                    @foreach (var account in _accounts)
+                    {
+                        <option value="@account.Id"> @account.Name (@account.AccountType / @account.Institution)</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" @onclick="@UpdateholdingTask">Save</button>
+                <button class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private AccountVm[] _accounts;
+    private Guid _accountId;
+    private HoldingVm _holding = new HoldingVm();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _holding = await Http.GetFromJsonAsync<HoldingVm>($"holdings/{Id}");
+        _accountId = _holding.AccountId;
+        _accounts = await Http.GetFromJsonAsync<AccountVm[]>($"accounts", new JsonSerializerOptions { PropertyNameCaseInsensitive = true, AllowTrailingCommas = true });
+    }
+
+    protected async Task UpdateholdingTask()
+    {
+        try
+        {
+            var request = new UpdateHoldingRequest
+            {
+                Id = Id,
+                AccountId = _accountId,
+                PurchaseDate = _holding.PurchaseDate,
+                Shares = _holding.Shares,
+                Ticker = _holding.Ticker,
+                PurchasePrice = _holding.PurchasePrice
+
+            };
+            await Http.PutAsJsonAsync($"holdings/{Id}", request);
+            NavigationManager.NavigateTo("./holdings");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("./holdings");
+    }
+}  

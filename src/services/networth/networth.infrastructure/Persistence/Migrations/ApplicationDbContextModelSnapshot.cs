@@ -61,16 +61,16 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("BuyPrice")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SharesNumber")
+                    b.Property<double>("PurchasePrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Shares")
                         .HasColumnType("int");
 
                     b.Property<string>("Ticker")

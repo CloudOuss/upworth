@@ -9,8 +9,8 @@ namespace NetworthDomain.Entities
     {
         public Guid Id { get; set; }
         public string Ticker { get; set; }
-        public double BuyPrice { get; set; }
-        public int SharesNumber { get; set; }
+        public double PurchasePrice { get; set; }
+        public int Shares { get; set; }
         public Account Account { get; set; }
         public HoldingDetails HoldingDetails { get; set; }
 
@@ -21,14 +21,20 @@ namespace NetworthDomain.Entities
 
         }
 
-        public Holding(string ticker, double buyPrice, int shareNumber, DateTime? dateCreated)
+        public Holding(string ticker, double purchasePrice, int share, Account account, DateTime? dateCreated)
         {
             Id = Guid.NewGuid();
             Ticker = ticker;
-            BuyPrice = buyPrice;
-            SharesNumber = shareNumber;
+            PurchasePrice = purchasePrice;
+            Shares = share;
             Created = dateCreated ?? default;
             HoldingDetails = null;
+            Account = account;
+        }
+
+        public void SetAccount()
+        {
+
         }
     }
 }

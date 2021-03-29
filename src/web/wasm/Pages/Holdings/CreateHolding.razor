@@ -1,0 +1,87 @@
+@page "/holdings/create"
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Http.Extensions
+@using NetworthApplication.Accounts
+@using NetworthApplication.Holdings
+@using NetworthApplication.Holdings.CreateHolding
+
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Create</h1>
+<h3>holding</h3>
+<hr />
+@if (_accounts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Ticker</label>
+                <input asp-for="Name" class="form-control" @bind="_holding.Ticker" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Shares" class="control-label">Shares</label>
+                <input asp-for="Shares" type="number" class="form-control" @bind="_holding.Shares" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchasePrice" class="control-label">Purchase Price</label>
+                <input asp-for="PurchasePrice" class="form-control" @bind="_holding.PurchasePrice" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseDate" class="control-label">Purchase Date</label>
+                <input asp-for="PurchaseDate" type="date" class="form-control" @bind="_holding.PurchaseDate" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Account" class="control-label">Account</label>
+                <select class="custom-select" @bind="_holding.AccountId" title="Account">
+                    <option value="Select" selected disabled="disabled">(Choose Account)</option>
+                    @foreach (var account in _accounts)
+                    {
+                        <option value="@account.Id"> @account.Name (@account.Institution)</option>
+
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" @onclick="@CreateholdingTask">Save</button>
+                <button class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    AccountVm[] _accounts;
+
+    private readonly CreateHoldingRequest _holding = new CreateHoldingRequest { PurchaseDate = DateTime.Today };
+
+    protected override async Task OnInitializedAsync()
+    {
+        _accounts = await Http.GetFromJsonAsync<AccountVm[]>($"accounts", new JsonSerializerOptions { PropertyNameCaseInsensitive = true, AllowTrailingCommas = true });
+    }
+
+    protected async Task CreateholdingTask()
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("holdings", _holding);
+            NavigationManager.NavigateTo("./holdings");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("./holdings");
+    }
+}

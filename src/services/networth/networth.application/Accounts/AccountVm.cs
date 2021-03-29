@@ -2,7 +2,6 @@
 using AutoMapper;
 using NetworthApplication.Common.Mappings;
 using NetworthDomain.Entities;
-using NetworthDomain.Enums;
 
 namespace NetworthApplication.Accounts
 {
@@ -20,9 +19,7 @@ namespace NetworthApplication.Accounts
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Account, AccountVm>()
-                .ForMember(d => d.Institution, opt => opt.MapFrom(s => s.Institution.Name));
-
-            profile.CreateMap<Account, AccountVm>()
+                .ForMember(d => d.Institution, opt => opt.MapFrom(s => s.Institution.Name))
                 .ForMember(d => d.AccountType, opt => opt.MapFrom(s => s.AccountType.Name));
         }
     }

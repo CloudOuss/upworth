@@ -1,0 +1,64 @@
+@page "/holdings"  
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Holdings
+@attribute [Authorize]
+@inject HttpClient Http
+  
+<h1>holdings</h1>  
+<p>  
+    <a href="/holdings/create">Create New</a>  
+</p>  
+
+@if (_holdings == null)  
+{  
+    <p><em>Loading...</em></p>  
+}  
+else  
+{  
+    <table class='table'>  
+        <thead>  
+            <tr>
+                <th>Ticker</th>
+                <th>Purchase Date</th>
+                <th>Shares Number</th>
+                <th>PurchasePrice</th>
+                <th>Dividend Rate</th>
+            </tr>  
+        </thead>  
+        <tbody>  
+            @foreach (var holding in _holdings)  
+            {  
+            <tr>
+                <td>@holding.Ticker</td>
+                <td>@holding.PurchaseDate</td>
+                <td>@holding.Shares</td>
+                <td>@holding.PurchasePrice</td>
+                <td>@holding.HoldingDetails.DividendRate</td>
+                <td>
+                    <a href='/holdings/@holding.Id/edit'>Edit</a>  |
+                    <a href='/holdings/@holding.Id/delete'>Delete</a>
+                </td>
+            </tr>  
+            }  
+        </tbody>  
+    </table>  
+}  
+  
+@code {  
+    List<HoldingVm> _holdings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _holdings = await Http.GetFromJsonAsync<List<HoldingVm>>($"holdings", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, AllowTrailingCommas = true});
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}  

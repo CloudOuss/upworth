@@ -32,6 +32,7 @@ namespace NetworthApplication.Holdings.GetHoldingById
         {
             var holding = await _context.Holdings
                 .AsNoTracking()
+                .Include(x=>x.Account)
                 .FirstOrDefaultAsync(h => h.Id == request.Id && h.UserId == _identityService.UserId, cancellationToken: cancellationToken);
 
             if(holding != null){

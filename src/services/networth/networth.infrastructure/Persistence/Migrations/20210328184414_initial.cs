@@ -8,7 +8,7 @@ namespace NetworthInfrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AccountType",
+                name: "AccountTypes",
                 columns: table => new
                 {
                     Value = table.Column<int>(type: "int", nullable: false)
@@ -17,11 +17,11 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountType", x => x.Value);
+                    table.PrimaryKey("PK_AccountTypes", x => x.Value);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Institution",
+                name: "Institutions",
                 columns: table => new
                 {
                     Value = table.Column<int>(type: "int", nullable: false)
@@ -30,7 +30,7 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Institution", x => x.Value);
+                    table.PrimaryKey("PK_Institutions", x => x.Value);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,9 +49,15 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Accounts_Institution_InstitutionId",
+                        name: "FK_Accounts_AccountTypes_AccountTypeId",
+                        column: x => x.AccountTypeId,
+                        principalTable: "AccountTypes",
+                        principalColumn: "Value",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Accounts_Institutions_InstitutionId",
                         column: x => x.InstitutionId,
-                        principalTable: "Institution",
+                        principalTable: "Institutions",
                         principalColumn: "Value",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -62,8 +68,8 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Ticker = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BuyPrice = table.Column<double>(type: "float", nullable: false),
-                    SharesNumber = table.Column<int>(type: "int", nullable: false),
+                    PurchasePrice = table.Column<double>(type: "float", nullable: false),
+                    Shares = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -81,24 +87,29 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AccountType",
+                table: "AccountTypes",
                 columns: new[] { "Value", "Name" },
                 values: new object[,]
                 {
                     { 1, "RRSP" },
                     { 2, "TFSA" },
-                    { 4, "LIRA" },
-                    { 3, "Taxable" }
+                    { 3, "LIRA" },
+                    { 4, "Taxable" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Institution",
+                table: "Institutions",
                 columns: new[] { "Value", "Name" },
                 values: new object[,]
                 {
                     { 1, "Questrade" },
                     { 2, "Wealthsimple" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_AccountTypeId",
+                table: "Accounts",
+                column: "AccountTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_InstitutionId",
@@ -114,16 +125,16 @@ namespace NetworthInfrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountType");
-
-            migrationBuilder.DropTable(
                 name: "Holdings");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Institution");
+                name: "AccountTypes");
+
+            migrationBuilder.DropTable(
+                name: "Institutions");
         }
     }
 }
