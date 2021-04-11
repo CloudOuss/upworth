@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NetworthDomain.Common;
+using NetworthDomain.Enums;
 using NetworthDomain.ValueObjects;
 
 namespace NetworthDomain.Entities
@@ -12,7 +13,13 @@ namespace NetworthDomain.Entities
         public double PurchasePrice { get; set; }
         public int Shares { get; set; }
         public Account Account { get; set; }
-        public HoldingDetails HoldingDetails { get; set; }
+        public HoldingDetails HoldingDetails { get; private set; }
+        public int CurrencyId { get; private set; }
+        public Currency Currency { get; private set; }
+        public double CostBasis => PurchasePrice * Shares;
+        public double MarketValue { get; set; }
+        public double GainLoss { get; set; }
+        public double GainLossPercent { get; set; }
 
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
 
@@ -21,7 +28,7 @@ namespace NetworthDomain.Entities
 
         }
 
-        public Holding(string ticker, double purchasePrice, int share, Account account, DateTime? dateCreated)
+        public Holding(string ticker, double purchasePrice, int share, Account account, DateTime? dateCreated, Currency currency)
         {
             Id = Guid.NewGuid();
             Ticker = ticker;
@@ -30,11 +37,21 @@ namespace NetworthDomain.Entities
             Created = dateCreated ?? default;
             HoldingDetails = null;
             Account = account;
+            SetCurrency(currency);
         }
 
-        public void SetAccount()
+        public void SetCurrency(Currency currency)
         {
+            Currency = currency;
+            CurrencyId = Currency.Value;
+        }
 
+        public void SetAccountDetails(HoldingDetails details)
+        {
+            HoldingDetails = details;
+            MarketValue = double.Parse(HoldingDetails.LatestClosePrice.Trim('$')) * Shares;
+            GainLoss = MarketValue - CostBasis;
+            GainLossPercent = GainLoss / CostBasis;
         }
     }
 }

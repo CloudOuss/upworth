@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NetworthInfrastructure.Persistence.Migrations
 {
-    public partial class initial : Migration
+    public partial class initial_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,6 +18,19 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountTypes", x => x.Value);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Value = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Value);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,6 +84,7 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     PurchasePrice = table.Column<double>(type: "float", nullable: false),
                     Shares = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -84,6 +98,12 @@ namespace NetworthInfrastructure.Persistence.Migrations
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Holdings_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Value",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -95,6 +115,15 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     { 2, "TFSA" },
                     { 3, "LIRA" },
                     { 4, "Taxable" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Value", "Name" },
+                values: new object[,]
+                {
+                    { 1, "USD" },
+                    { 2, "CAD" }
                 });
 
             migrationBuilder.InsertData(
@@ -120,6 +149,11 @@ namespace NetworthInfrastructure.Persistence.Migrations
                 name: "IX_Holdings_AccountId",
                 table: "Holdings",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Holdings_CurrencyId",
+                table: "Holdings",
+                column: "CurrencyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -129,6 +163,9 @@ namespace NetworthInfrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "AccountTypes");

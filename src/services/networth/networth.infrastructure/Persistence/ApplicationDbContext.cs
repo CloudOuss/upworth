@@ -88,6 +88,7 @@ namespace NetworthInfrastructure.Persistence
 
             AccountTypesConfiguration.SeedData(builder);
             InstitutionsConfiguration.SeedData(builder);
+            CurrenciesConfiguration.SeedData(builder);
             base.OnModelCreating(builder);
         }
 

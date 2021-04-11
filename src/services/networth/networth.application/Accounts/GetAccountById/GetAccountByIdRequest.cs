@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Enums;
 
 namespace NetworthApplication.Accounts.GetAccountById
 
@@ -34,6 +35,8 @@ namespace NetworthApplication.Accounts.GetAccountById
                 .AsNoTracking()
                 .FirstOrDefaultAsync(h => h.Id == byIdRequest.Id && h.UserId == _identityService.UserId, cancellationToken: cancellationToken);
 
+            account.SetAccountType(AbstractEnumeration.FromValue<AccountType>(account.AccountTypeId));
+            account.SetInstitution(AbstractEnumeration.FromValue<Institution>(account.InstitutionId));
             return _mapper.Map<AccountVm>(account);
         }
     }

@@ -10,8 +10,8 @@ using NetworthInfrastructure.Persistence;
 namespace NetworthInfrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210328184414_initial")]
-    partial class initial
+    [Migration("20210406045246_initial_migration")]
+    partial class initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,9 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -84,6 +87,8 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("Holdings");
                 });
@@ -124,6 +129,35 @@ namespace NetworthInfrastructure.Persistence.Migrations
                         {
                             Value = 4,
                             Name = "Taxable"
+                        });
+                });
+
+            modelBuilder.Entity("NetworthDomain.Enums.Currency", b =>
+                {
+                    b.Property<int>("Value")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Value");
+
+                    b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Value = 1,
+                            Name = "USD"
+                        },
+                        new
+                        {
+                            Value = 2,
+                            Name = "CAD"
                         });
                 });
 
@@ -176,6 +210,12 @@ namespace NetworthInfrastructure.Persistence.Migrations
                     b.HasOne("NetworthDomain.Entities.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
+
+                    b.HasOne("NetworthDomain.Enums.Currency", null)
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });

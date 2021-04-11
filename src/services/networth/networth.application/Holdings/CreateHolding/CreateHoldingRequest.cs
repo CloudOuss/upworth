@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Entities;
+using NetworthDomain.Enums;
 using NetworthDomain.Events;
 
 namespace NetworthApplication.Holdings.CreateHolding
@@ -16,6 +17,7 @@ namespace NetworthApplication.Holdings.CreateHolding
         public int Shares { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public Guid AccountId { get; set; }
+        public string Currency { get; set; }
     }
 
     public class CreateHoldingRequestHandler : IRequestHandler<CreateHoldingRequest, Guid>
@@ -36,7 +38,8 @@ namespace NetworthApplication.Holdings.CreateHolding
                 throw new Exception();
             }
 
-            var entity = new Holding(request.Ticker, request.PurchasePrice, request.Shares, account, request.PurchaseDate);
+            var entity = new Holding(request.Ticker, request.PurchasePrice, request.Shares, account,
+                request.PurchaseDate, AbstractEnumeration.FromName<Currency>(request.Currency));
             entity.DomainEvents.Add(new HoldingPurchasedEvent(entity));
 
             _context.Holdings.Add(entity);

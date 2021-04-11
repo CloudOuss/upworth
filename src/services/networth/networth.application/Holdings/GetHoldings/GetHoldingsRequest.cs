@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Enums;
 
 namespace NetworthApplication.Holdings.GetHoldings
 
@@ -43,7 +44,8 @@ namespace NetworthApplication.Holdings.GetHoldings
 
             foreach (var holding in holdings)
             {
-                holding.HoldingDetails = await _holdingsService.GetDetailsByTickerAsync(holding.Ticker);
+                holding.SetCurrency(AbstractEnumeration.FromValue<Currency>(holding.CurrencyId));
+                holding.SetAccountDetails(await _holdingsService.GetDetailsByTickerAsync(holding.Ticker));
                 results.Add(_mapper.Map<HoldingVm>(holding));
             }
             

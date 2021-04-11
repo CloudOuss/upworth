@@ -1,0 +1,55 @@
+﻿@page "/portfolio"  
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using NetworthApplication.Portfolio
+@attribute [Authorize]
+@inject HttpClient Http
+  
+<h1>Portfolio</h1>  
+
+@if (_portfolio == null)  
+{  
+    <p><em>Loading...</em></p>  
+}  
+else  
+{  
+    <table class='table'>  
+        <thead>  
+            <tr>
+                <th>TotalShares</th>
+                <th>TotalAverageCost</th>
+                <th>TotalCostBasis</th>
+                <th>TotalMarketValue</th>
+                <th>TotalGainLoss</th>
+                <th>TotalGainLossPercent</th>
+            </tr> 
+        </thead>  
+        <tbody>
+            <tr>
+                <td>@_portfolio.TotalShares</td>
+                <td>@_portfolio.TotalAverageCost</td>
+                <td>@_portfolio.TotalCostBasis</td>
+                <td>@_portfolio.TotalMarketValue</td>
+                <td>@_portfolio.TotalGainLoss</td>
+                <td>@_portfolio.TotalGainLossPercent</td>
+            </tr>  
+        </tbody>  
+    </table>  
+}  
+  
+@code {  
+    PortfolioVm _portfolio;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _portfolio = await Http.GetFromJsonAsync<PortfolioVm>($"portfolio", new JsonSerializerOptions{ PropertyNameCaseInsensitive = true, AllowTrailingCommas = true});
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+}

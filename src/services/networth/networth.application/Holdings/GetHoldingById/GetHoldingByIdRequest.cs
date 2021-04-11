@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Interfaces;
+using NetworthDomain.Enums;
 
 namespace NetworthApplication.Holdings.GetHoldingById
 {
@@ -35,10 +36,9 @@ namespace NetworthApplication.Holdings.GetHoldingById
                 .Include(x=>x.Account)
                 .FirstOrDefaultAsync(h => h.Id == request.Id && h.UserId == _identityService.UserId, cancellationToken: cancellationToken);
 
-            if(holding != null){
-                holding.HoldingDetails = await _holdingsService.GetDetailsByTickerAsync(holding.Ticker);
-            }
-            
+            holding?.SetCurrency(AbstractEnumeration.FromValue<Currency>(holding.CurrencyId));
+            holding?.SetAccountDetails(await _holdingsService.GetDetailsByTickerAsync(holding.Ticker));
+
             return _mapper.Map<HoldingVm>(holding);
         }
     }

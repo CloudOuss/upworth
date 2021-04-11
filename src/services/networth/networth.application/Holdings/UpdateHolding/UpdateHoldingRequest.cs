@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using NetworthApplication.Common.Exceptions;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Entities;
+using NetworthDomain.Enums;
 
 namespace NetworthApplication.Holdings.UpdateHolding
 {
@@ -17,6 +18,7 @@ namespace NetworthApplication.Holdings.UpdateHolding
         public DateTime? PurchaseDate { get; set; }
         public int Shares { get; set; }
         public Guid AccountId { get; set; }
+        public string Currency { get; set; }
 
     }
 
@@ -45,6 +47,8 @@ namespace NetworthApplication.Holdings.UpdateHolding
             entity.PurchasePrice = request.PurchasePrice;
             entity.Shares = request.Shares;
             entity.Account = account ?? throw new NotFoundException(nameof(Account), request.AccountId);
+            entity.SetCurrency(AbstractEnumeration.FromName<Currency>(request.Currency));
+
             if (request.PurchaseDate != null)
             {
                 entity.Created = (DateTime) request.PurchaseDate;

@@ -47,6 +47,14 @@ else
                 </select>
             </div>
             <div class="form-group">
+                <label asp-for="Type" class="control-label">Currency</label>
+                <select asp-for="Type" class="form-control" @bind="_holding.Currency">
+                    <option value="">-- Select Currency --</option>
+                    <option value="USD">USD</option>
+                    <option value="CAD">CAD</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-default" @onclick="@UpdateholdingTask">Save</button>
                 <button class="btn" @onclick="@Cancel">Cancel</button>
             </div>
@@ -80,7 +88,8 @@ else
                 PurchaseDate = _holding.PurchaseDate,
                 Shares = _holding.Shares,
                 Ticker = _holding.Ticker,
-                PurchasePrice = _holding.PurchasePrice
+                PurchasePrice = _holding.PurchasePrice,
+                Currency = _holding.Currency
 
             };
             await Http.PutAsJsonAsync($"holdings/{Id}", request);
