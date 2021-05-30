@@ -11,10 +11,7 @@ namespace NetworthApplication.Accounts.GetAccountById
 
 
 {
-    public class GetAccountByIdRequest : IRequest<AccountVm>
-    {
-        public Guid Id { get; set; }
-    }
+    public record GetAccountByIdRequest(Guid Id) : IRequest<AccountVm>;
 
     public class GetAccountByIdRequestHandler : IRequestHandler<GetAccountByIdRequest, AccountVm>
     {

@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @using NetworthApplication.Accounts
 @using NetworthApplication.Accounts.CreateAccount
+@using NetworthDomain.Enums
 
 @attribute [Authorize]
 @inject HttpClient Http
@@ -17,11 +18,11 @@
     <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Name</label>
-                <input asp-for="Name" class="form-control" @bind="account.Name" />
+                <input asp-for="Name" class="form-control" @bind="_name" />
             </div>
             <div class="form-group">
                 <label asp-for="Institution" class="control-label">Institution</label>
-                <select asp-for="Institution" class="form-control" @bind="account.Institution">
+                <select asp-for="Institution" class="form-control" @bind="_institution">
                     <option value="">-- Select Institution --</option>
                     <option value="1">Questrade</option>
                     <option value="2">Wealthsimple</option>
@@ -29,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label">Account Type</label>
-                <select asp-for="Type" class="form-control" @bind="account.Type">
+                <select asp-for="Type" class="form-control" @bind="_type">
                     <option value="">-- Select Account Type --</option>
                     <option value="1">RRSP</option>
                     <option value="2">TFSA</option>
@@ -45,12 +46,14 @@
 </div>
 
 @code {
-    private CreateAccountRequest account = new CreateAccountRequest() ;
+    private string _name;
+    private int _institution;
+    private int _type;
     protected async Task CreateAccountTask()
     {
         try
         {
-            await Http.PostAsJsonAsync("accounts", account);
+            await Http.PostAsJsonAsync("accounts", new CreateAccountRequest(_name, _institution, _type));
             NavigationManager.NavigateTo("./accounts");
         }
         catch (AccessTokenNotAvailableException exception)

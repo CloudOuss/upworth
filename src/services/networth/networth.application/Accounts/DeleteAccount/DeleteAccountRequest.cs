@@ -8,10 +8,7 @@ using NetworthDomain.Entities;
 
 namespace NetworthApplication.Accounts.DeleteAccount
 {
-    public class DeleteAccountRequest : IRequest
-    {
-        public Guid Id { get; set; }
-    }
+    public record DeleteAccountRequest(Guid Id) : IRequest;
 
     public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequest>
     {

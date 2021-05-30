@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetworthApplication.Common.Interfaces;
 using NetworthDomain.Entities;
@@ -15,9 +13,7 @@ namespace NetworthApplication.Accounts.GetAccounts
 
 
 {
-    public class GetAccountsRequest : IRequest<List<AccountVm>>
-    {
-    }
+    public record GetAccountsRequest() : IRequest<List<AccountVm>>;
 
     public class GetAccountsRequestHandler : IRequestHandler<GetAccountsRequest, List<AccountVm>>
     {

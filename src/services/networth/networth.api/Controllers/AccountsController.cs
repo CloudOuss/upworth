@@ -25,7 +25,7 @@ namespace NetworthApi.Controllers
         [HttpGet("{id}")]
         public async Task<AccountVm> Get(Guid id)
         {
-            return await Mediator.Send(new GetAccountByIdRequest{Id = id});
+            return await Mediator.Send(new GetAccountByIdRequest(id));
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace NetworthApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await Mediator.Send(new DeleteAccountRequest{Id = id});
+            await Mediator.Send(new DeleteAccountRequest(id));
             return NoContent();
         }
     }

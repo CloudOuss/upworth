@@ -8,12 +8,7 @@ using NetworthDomain.Enums;
 
 namespace NetworthApplication.Accounts.CreateAccount
 {
-    public class CreateAccountRequest : IRequest<Guid>
-    {
-        public string Name { get; set; }
-        public int Institution { get; set; }
-        public int Type { get; set; }
-    }
+    public record CreateAccountRequest(string Name, int Institution, int Type) : IRequest<Guid>;
 
     public class CreateAccountRequestHandler : IRequestHandler<CreateAccountRequest, Guid>
     {

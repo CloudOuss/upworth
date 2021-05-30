@@ -63,13 +63,8 @@ else
     {
         try
         {
-            var request = new UpdateAccountRequest
-            {
-                Id = EmployeeId, 
-                Institution = account.InstitutionId, 
-                Name = account.Name, 
-                Type = account.AccountTypeId
-            };
+            var request = new UpdateAccountRequest(EmployeeId, account.Name, account.AccountTypeId, account.InstitutionId);
+
             await Http.PutAsJsonAsync($"accounts/{EmployeeId}", request);
             NavigationManager.NavigateTo("./accounts");
         }
