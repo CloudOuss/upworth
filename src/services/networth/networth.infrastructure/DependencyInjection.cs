@@ -22,7 +22,7 @@ namespace NetworthInfrastructure
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(configuration
                     .GetConnectionString("UpworthConnection")));
-            
+
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IDomainEventService, DomainEventService>();
             

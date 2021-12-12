@@ -1,50 +1,41 @@
-using System;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using wasm;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
-namespace wasm
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddHttpClientInterceptor();
+builder.Services.AddHttpClient("networthApi", cl =>
 {
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
-
-            builder.Services.AddHttpClient("networthApi", cl =>
-            {
-                cl.BaseAddress = new Uri("https://localhost:5002/api/");
-            })
-            .AddHttpMessageHandler(sp =>
-            {
-                var handler = sp.GetService<AuthorizationMessageHandler>()
-                .ConfigureHandler(
-                    authorizedUrls: new[] { "https://localhost:5002" },
-                    scopes: new[] { "networth" }
-                );
-                return handler;
-            });
-        
-            builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("networthApi"));
+    cl.BaseAddress = new Uri("https://localhost:5002/api/");
+})
+.AddHttpMessageHandler(sp =>
+{
+    var handler = sp.GetService<AuthorizationMessageHandler>()
+    .ConfigureHandler(
+        authorizedUrls: new[] { "https://localhost:5002" },
+        scopes: new[] { "networth" }
+    );
+    return handler;
+});
 
 
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("Identity", options.ProviderOptions);
-                options.ProviderOptions.ResponseType = "code";
-                options.ProviderOptions.DefaultScopes.Add("profile");
-                options.ProviderOptions.DefaultScopes.Add("address");
-                options.ProviderOptions.DefaultScopes.Add("networth");
-            });
+builder.Services.AddLoadingBar();
+builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("networthApi"));
 
-            await builder.Build().RunAsync();
-        }
-    }
-}
+
+builder.Services.AddOidcAuthentication(options =>
+{
+    builder.Configuration.Bind("Identity", options.ProviderOptions);
+    options.ProviderOptions.ResponseType = "code";
+    options.ProviderOptions.DefaultScopes.Add("profile");
+    options.ProviderOptions.DefaultScopes.Add("address");
+    options.ProviderOptions.DefaultScopes.Add("networth");
+});
+
+builder.UseLoadingBar();
+await builder.Build().RunAsync();

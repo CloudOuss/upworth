@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using NetworthDomain.Entities;
 using NetworthDomain.ValueObjects;
 
 namespace NetworthInfrastructure.Dependencies.XpathProvider
@@ -36,17 +35,18 @@ namespace NetworthInfrastructure.Dependencies.XpathProvider
             var dividendPayDate = doc.DocumentNode.SelectSingleNode(DividendPayDate)?.InnerText;
             var consecutiveDividendIncreases = doc.DocumentNode.SelectSingleNode(ConsecutiveDividendIncreases)?.InnerText;
             var sector = doc.DocumentNode.SelectSingleNode(Sector)?.InnerText;
-            var segment = doc.DocumentNode.SelectSingleNode(Segment)?.InnerText;
-            var industry = doc.DocumentNode.SelectSingleNode(Industry)?.InnerText;
 
-            return new HoldingDetails(GetIndustryValue(sector, segment, industry), latestClosePrice, dividendRate,
+            return new HoldingDetails(GetIndustryValue(sector), latestClosePrice, dividendRate,
                 projectedDividendAnnualYield, trailingDividendAnnualYield, dividendGrowth3YearsAverage,
                 dividendGrowth5YearsAverage, dividendExDate, consecutiveDividendIncreases, dividendPayDate);
         }
 
-        private static int GetIndustryValue(string sector, string segment, string industry)
+        private static int GetIndustryValue(string sector)
         {
-            return NetworthDomain.Enums.Industry.Financials.Value;
+            NetworthDomain.Enums.Industry industry;
+            return NetworthDomain.Enums.Industry.TryGetFromValueOrName(sector, out industry)
+                ? industry.Value
+                : NetworthDomain.Enums.Industry.NotApplicable.Value;
         }
     }
 }

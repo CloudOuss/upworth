@@ -51,19 +51,22 @@ namespace NetworthApplication.Portfolio.GetPortfolio
                 holdingsResult.Add(_mapper.Map<HoldingVm>(holding));
             }
 
-            portfolio.TotalShares = holdings.Sum(h=>h.Shares);
-            portfolio.TotalAverageCost = holdings.Average(h=>h.PurchasePrice);
-            portfolio.TotalCostBasis =  holdings.Sum(h=>h.CostBasis);
-            portfolio.TotalMarketValue = holdings.Sum(h=>h.MarketValue);
-            portfolio.TotalGainLoss = holdings.Sum(h=>h.GainLoss);
-            portfolio.TotalGainLossPercent = portfolio.TotalGainLoss / portfolio.TotalCostBasis;
-            
-            foreach (var holdingResult in holdingsResult)
+            if(holdings.Capacity > 0)
             {
-                holdingResult.Weight = holdingResult.CostBasis / portfolio.TotalMarketValue;
-            }
+                portfolio.TotalShares = holdings.Sum(h => h.Shares);
+                portfolio.TotalAverageCost = holdings.Average(h => h.PurchasePrice);
+                portfolio.TotalCostBasis = holdings.Sum(h => h.CostBasis);
+                portfolio.TotalMarketValue = holdings.Sum(h => h.MarketValue);
+                portfolio.TotalGainLoss = holdings.Sum(h => h.GainLoss);
+                portfolio.TotalGainLossPercent = portfolio.TotalGainLoss / portfolio.TotalCostBasis;
 
-            portfolio.Holdings = holdingsResult;
+                foreach (var holdingResult in holdingsResult)
+                {
+                    holdingResult.Weight = holdingResult.CostBasis / portfolio.TotalMarketValue;
+                }
+
+                portfolio.Holdings = holdingsResult;
+            }
 
             return portfolio;
         }

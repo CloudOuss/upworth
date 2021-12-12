@@ -2,6 +2,7 @@
 {
     public class Industry : AbstractEnumeration
     {
+        public static readonly Industry NotApplicable = new Industry(0, "NA");
         public static readonly Industry CommunicationServices = new Industry(1, "Communication Services");
         public static readonly Industry ConsumerDiscretionary = new Industry(2, "Consumer Discretionary");
         public static readonly Industry ConsumerStaples = new Industry(3, "Consumer Staples");
